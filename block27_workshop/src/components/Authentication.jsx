@@ -9,6 +9,8 @@ function Authentication(props) {
 
   async function handleClick() {
     //console.log("clicked");
+    setError(null);
+
     try {
       const response = await fetch(api, {
         method: "GET",
@@ -19,16 +21,16 @@ function Authentication(props) {
       });
 
       const json = await response.json();
+      
       setSuccessMessage(json.message);
       setUsername(json.data.username);
-
-      setError(null);
-
-      // console.log("Authentication", json);
+      
+      //console.log("Authentication", json);
       // console.log("Success Message: ", json.message);
       // console.log("Username: ", json.data.username);
     } catch (error) {
-      setError(error.message);
+      setError(`Please sign up prior to authentication - ${error.message}`);
+      //console.log(error.message);
     }
   }
 
