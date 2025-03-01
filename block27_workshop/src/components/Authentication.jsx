@@ -8,7 +8,7 @@ function Authentication(props) {
   const api = "https://fsa-jwt-practice.herokuapp.com/authenticate";
 
   async function handleClick() {
-    console.log("clicked");
+    //console.log("clicked");
     try {
       const response = await fetch(api, {
         method: "GET",
@@ -19,9 +19,14 @@ function Authentication(props) {
       });
 
       const json = await response.json();
-      console.log("Authentication", json);
       setSuccessMessage(json.message);
       setUsername(json.data.username);
+
+      setError(null);
+
+      // console.log("Authentication", json);
+      // console.log("Success Message: ", json.message);
+      // console.log("Username: ", json.data.username);
     } catch (error) {
       setError(error.message);
     }
@@ -30,9 +35,17 @@ function Authentication(props) {
   return (
     <>
       <h2>Authenticate</h2>
-      {error ? <p>{error}</p> : ""}
-      {successMessage ? <p>{successMessage}</p> : ""}
-      {successMessage ? <p>{`Username: ${username}`}</p> : ""}
+      {error ? <p className="Error_Message">{error}</p> : ""}
+      {successMessage && !error ? (
+        <p className="Success_Message">{successMessage}</p>
+      ) : (
+        ""
+      )}
+      {successMessage && !error ? (
+        <p className="Success_Message">{`Username: ${username}`}</p>
+      ) : (
+        ""
+      )}
       <button onClick={handleClick}>Authenticate Token</button>
     </>
   );
